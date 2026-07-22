@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Contact Us - MOCOWEST{% endblock %}
+{% block content %}
+<section style="padding-top: 120px; background: var(--light); min-height: 100vh;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+        <div class="section-header">
+            <span class="badge">Contact</span>
+            <h2>Get In Touch</h2>
+            <p>Have a question or want to discuss your project? We'd love to hear from you.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1000px; margin: 0 auto;">
+            <div>
+                <form id="contactForm" method="POST" style="background: var(--white); padding: 2.5rem; border-radius: 16px; box-shadow: var(--shadow);">
+                    <div style="margin-bottom: 1.5rem;">
+                        <label for="name" style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--primary);">Full Name</label>
+                        <input type="text" id="name" name="name" required style="width: 100%; padding: 0.8rem 1rem; border: 2px solid #e9ecef; border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label for="email" style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--primary);">Email Address</label>
+                        <input type="email" id="email" name="email" required style="width: 100%; padding: 0.8rem 1rem; border: 2px solid #e9ecef; border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label for="subject" style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--primary);">Subject</label>
+                        <input type="text" id="subject" name="subject" required style="width: 100%; padding: 0.8rem 1rem; border: 2px solid #e9ecef; border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label for="message" style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--primary);">Message</label>
+                        <textarea id="message" name="message" rows="5" required style="width: 100%; padding: 0.8rem 1rem; border: 2px solid #e9ecef; border-radius: 8px; font-size: 1rem; resize: vertical;"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%;">Send Message</button>
+                </form>
+            </div>
+            <div>
+                <div style="background: var(--primary); color: var(--white); padding: 2.5rem; border-radius: 16px; height: 100%;">
+                    <h3 style="font-size: 1.5rem; margin-bottom: 2rem;">Contact Information</h3>
+                    <div style="margin-bottom: 2rem;">
+                        <!--<div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <span style="font-size: 1.5rem;">📍</span>
+                            <div><strong style="display: block; color: var(--secondary);">Address</strong><span>123 Coca Cola, Oxford Road<br>Johannesburg, South Africa</span></div>
+                        </div>-->
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <span style="font-size: 1.5rem;">📧</span>
+                            <div><strong style="display: block; color: var(--secondary);">Email</strong><span>info@mocowest.co.za</span></div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span style="font-size: 1.5rem;">📞</span>
+                            <div><strong style="display: block; color: var(--secondary);">Phone</strong><span>+27 64 525 0678</span></div>
+                        </div>
+                    </div>
+                    <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem;">
+                        <h4 style="color: var(--secondary); margin-bottom: 0.5rem;">Business Hours</h4>
+                        <p>Monday - Friday: 8:00 AM - 6:00 PM<br>Saturday: 9:00 AM - 1:00 PM<br>Sunday: Closed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Industries - MOCOWEST{% endblock %}
+{% block content %}
+<section style="padding-top: 120px; background: var(--light); min-height: 100vh;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+        <div class="section-header">
+            <span class="badge">Industries We Serve</span>
+            <h2>Transforming Industries Worldwide</h2>
+            <p>Delivering intelligent software solutions across diverse sectors</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+            <div style="background: var(--white); padding: 2rem; border-radius: 16px; box-shadow: var(--shadow); border-top: 4px solid #00b4d8;">
+                <span style="font-size: 2.5rem;"><img src="{{ url_for('static', filename='images/edu.png') }}" 
+                     alt="MOCOWEST edu" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></span>
+                <h3 style="color: var(--primary); margin: 1rem 0 0.5rem;">Education</h3>
+                <p style="color: var(--gray);">Empowering educational institutions with EdTech solutions for better learning outcomes.</p>
+            </div>
+            <div style="background: var(--white); padding: 2rem; border-radius: 16px; box-shadow: var(--shadow); border-top: 4px solid #2ecc71;">
+                <span style="font-size: 2.5rem;"><img src="{{ url_for('static', filename='images/gov.png') }}" 
+                     alt="MOCOWEST Government" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></span>
+                <h3 style="color: var(--primary); margin: 1rem 0 0.5rem;">Government</h3>
+                <p style="color: var(--gray);">Modernizing government operations with secure, scalable digital solutions.</p>
+            </div>
+            <div style="background: var(--white); padding: 2rem; border-radius: 16px; box-shadow: var(--shadow); border-top: 4px solid #e74c3c;">
+                <span style="font-size: 2.5rem;"><img src="{{ url_for('static', filename='images/Healthcare.png') }}" 
+                     alt="MOCOWEST Healthcare" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></span>
+                <h3 style="color: var(--primary); margin: 1rem 0 0.5rem;">Healthcare</h3>
+                <p style="color: var(--gray);">Improving patient care and operational efficiency through intelligent software.</p>
+            </div>
+            <div style="background: var(--white); padding: 2rem; border-radius: 16px; box-shadow: var(--shadow); border-top: 4px solid #f39c12;">
+                <span style="font-size: 2.5rem;"><img src="{{ url_for('static', filename='images/mine.png') }}" 
+                     alt="MOCOWEST Mine" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></span>
+                <h3 style="color: var(--primary); margin: 1rem 0 0.5rem;">Mining</h3>
+                <p style="color: var(--gray);">Optimizing mining operations with advanced tracking and management solutions.</p>
+            </div>
+            <div style="background: var(--white); padding: 2rem; border-radius: 16px; box-shadow: var(--shadow); border-top: 4px solid #e67e22;">
+                <span style="font-size: 2.5rem;"><img src="{{ url_for('static', filename='images/cons.png') }}" 
+                     alt="MOCOWEST Construction" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></span>
+                <h3 style="color: var(--primary); margin: 1rem 0 0.5rem;">Construction</h3>
+                <p style="color: var(--gray);">Streamlining construction projects with robust management and tracking tools.</p>
+            </div>
+            <div style="background: var(--white); padding: 2rem; border-radius: 16px; box-shadow: var(--shadow); border-top: 4px solid #9b59b6;">
+                <span style="font-size: 2.5rem;"><img src="{{ url_for('static', filename='images/hospitality.png') }}" 
+                     alt="MOCOWEST Hospitality" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></span>
+                <h3 style="color: var(--primary); margin: 1rem 0 0.5rem;">Hospitality</h3>
+                <p style="color: var(--gray);">Enhancing guest experiences and operational efficiency in the hospitality sector.</p>
+            </div>
+            <div style="background: var(--white); padding: 2rem; border-radius: 16px; box-shadow: var(--shadow); border-top: 4px solid #1abc9c;">
+                <span style="font-size: 2.5rem;"><img src="{{ url_for('static', filename='images/ret.png') }}" 
+                     alt="MOCOWEST retail" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></span>
+                <h3 style="color: var(--primary); margin: 1rem 0 0.5rem;">Retail</h3>
+                <p style="color: var(--gray);">Transforming retail operations with intelligent inventory and customer management.</p>
+            </div>
+            <div style="background: var(--white); padding: 2rem; border-radius: 16px; box-shadow: var(--shadow); border-top: 4px solid #ffd700;">
+                <span style="font-size: 2.5rem;"><img src="{{ url_for('static', filename='images/fins.png') }}" 
+                     alt="MOCOWEST Finance Services" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></span>
+                <h3 style="color: var(--primary); margin: 1rem 0 0.5rem;">Financial Services</h3>
+                <p style="color: var(--gray);">Powering financial institutions with secure, compliant, and innovative solutions.</p>
+            </div>
+            <div style="background: var(--white); padding: 2rem; border-radius: 16px; box-shadow: var(--shadow); border-top: 4px solid #34495e;">
+                <span style="font-size: 2.5rem;"><img src="{{ url_for('static', filename='images/manu.png') }}" 
+                     alt="MOCOWEST Manufacturing" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></span>
+                <h3 style="color: var(--primary); margin: 1rem 0 0.5rem;">Manufacturing</h3>
+                <p style="color: var(--gray);">Optimizing manufacturing processes with smart automation and tracking solutions.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

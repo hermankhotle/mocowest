@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block title %}MOCOWEST - Cloud Platform | Intelligent Software Solutions{% endblock %}
+{% block content %}
+<section class="hero" id="home">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Transforming Ideas Into<br><span class="highlight">Intelligent Software</span> Solutions</h1>
+            <p>Powerful. Scalable. Secure. Built for Education, Transportation, Finance and Enterprises.</p>
+            <div class="hero-buttons">
+                <a href="/contact" class="btn-primary">Get Started</a>
+                <a href="#solutions" class="btn-secondary">Explore Solutions</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item"><span class="number">150+</span><span class="label">Projects Delivered</span></div>
+                <div class="stat-item"><span class="number">25+</span><span class="label">Software Products</span></div>
+                <div class="stat-item"><span class="number">10+</span><span class="label">Industries Served</span></div>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="placeholder">
+                <!--<div class="icon">☁️</div> -->
+                 <a href="/" class="navbar-brand">
+                <!-- Option A: Text-based logo with icon 
+                <span style="font-size: 1.8rem; margin-right: 8px;">☁️</span>
+                MOCOWEST<span class="brand-highlight">.</span> -->
+                
+                <!-- Option B: Image logo (uncomment this and comment Option A above) -->
+                <img src="{{ url_for('static', filename='images/cloudm.png') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 250px; width: 250px; margin-right: 0px;">
+                <!--MOCOWEST<span class="brand-highlight">.</span> -->
+                
+            </a>
+                <div class="label">Cloud Platform</div>
+                <div style="display:flex;gap:0.5rem;margin-top:1rem;flex-wrap:wrap;justify-content:center;">
+                    <span style="background:rgba(255,107,53,0.2);padding:0.2rem 0.8rem;border-radius:20px;font-size:0.7rem;color:rgba(255,255,255,0.7);">99.9% Uptime</span>
+                    <span style="background:rgba(0,180,216,0.2);padding:0.2rem 0.8rem;border-radius:20px;font-size:0.7rem;color:rgba(255,255,255,0.7);">24/7 Support</span>
+                    <span style="background:rgba(255,215,0,0.2);padding:0.2rem 0.8rem;border-radius:20px;font-size:0.7rem;color:rgba(255,255,255,0.7);">100% Cloud</span>
+                </div> 
+            </div>
+        </div>
+    </div>
+</section>
+<section class="stats-bar">
+    <div class="container">
+        <div><span class="stat-number" data-target="150">150+</span><span class="stat-label">Projects Delivered</span></div>
+        <div><span class="stat-number" data-target="25">25+</span><span class="stat-label">Software Products</span></div>
+        <div><span class="stat-number" data-target="10">10+</span><span class="stat-label">Industries Served</span></div>
+        <div><span class="stat-number" data-target="99.9">99.9%</span><span class="stat-label">Uptime Guarantee</span></div>
+        <div><span class="stat-number" data-target="24">24/7</span><span class="stat-label">Support Available</span></div>
+    </div>
+</section>
+<section class="solutions" id="solutions">
+    <div class="container">
+        <div class="section-header">
+            <span class="badge">Our Solutions</span>
+            <h2>Powering digital transformation across industries</h2>
+            <p>Discover our comprehensive suite of intelligent software solutions</p>
+        </div>
+        <div class="solutions-grid">
+            <div class="solution-card">
+                
+                <!--<div class="icon">🎓</div>-->
+                <div><img src="{{ url_for('static', filename='images/school.png') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></div>
+                <h3>EduTrack</h3>
+                <p>School Book Retrieval &amp; Management System with QR Code, Inventory, Student Portal and Reports.</p>
+                <a href="/solutions" class="learn-more">Learn More →</a>
+            </div>
+            <div class="solution-card">
+               <!--<div class="icon">🚗</div>--> 
+                <div><img src="{{ url_for('static', filename='images/st.png') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></div>
+                <h3>Transi</h3>
+                <p>Driver &amp; Staff Transportation Management with GPS Tracking, Scheduling, Fleet Management and more.</p>
+                <a href="/solutions" class="learn-more">Learn More →</a>
+            </div>
+            <div class="solution-card">
+                <!--<div class="icon">💰</div>-->
+                <div><img src="{{ url_for('static', filename='images/finslee.png') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></div>
+                <h3>FINSLEE</h3>
+                <p>Comprehensive financial technology platform for credit solution and payment gateways.</p>
+                <a href="/solutions" class="learn-more">Learn More →</a>
+            </div>
+            <div class="solution-card">
+                <!--<div class="icon">🛠️</div>-->
+                <div><img src="{{ url_for('static', filename='images/custom.png') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></div>
+                <h3>Custom Solutions</h3>
+                <p>We build custom web and mobile applications tailored specifically for individuals and companies.</p>
+                <a href="/solutions" class="learn-more">Learn More →</a>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="industries" id="industries">
+    <div class="container">
+        <div class="section-header">
+            <span class="badge">Industries We Serve</span>
+            <h2>Trusted by organizations across sectors</h2>
+            <p>From education to enterprise, we deliver solutions that drive results</p>
+        </div>
+        <div class="industries-grid">
+            <div class="industry-item"><span class="icon"><img src="{{ url_for('static', filename='images/educationdep.png') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 80px; width: 80px; margin-right: 0px;"></span><span class="name">Education</span></div>
+            <div class="industry-item"><span class="icon"><img src="{{ url_for('static', filename='images/govdep.png') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 80px; width: 80px; margin-right: 0px;"></span><span class="name">Government</span></div>
+            <div class="industry-item"><span class="icon"><img src="{{ url_for('static', filename='images/healthdep.png') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 80px; width: 80px; margin-right: 0px;"></span><span class="name">Healthcare</span></div>
+            <div class="industry-item"><span class="icon"><img src="{{ url_for('static', filename='images/miningdep.png') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 80px; width: 80px; margin-right: 0px;"></span><span class="name">Mining</span></div>
+            <div class="industry-item"><span class="icon"><img src="{{ url_for('static', filename='images/constructiondep.png') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 80px; width: 80px; margin-right: 0px;"></span><span class="name">Construction</span></div>
+            <div class="industry-item"><span class="icon"><img src="{{ url_for('static', filename='images/hospitalitydep.png') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 80px; width: 80px; margin-right: 0px;"></span><span class="name">Hospitality</span></div>
+            <div class="industry-item"><span class="icon"><img src="{{ url_for('static', filename='images/retaildep.png') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 80px; width: 80px; margin-right: 0px;"></span><span class="name">Retail</span></div>
+            <div class="industry-item"><span class="icon"><img src="{{ url_for('static', filename='images/financedep.png') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 80px; width: 80px; margin-right: 0px;"></span><span class="name">Financial Services</span></div>
+            <div class="industry-item"><span class="icon"><img src="{{ url_for('static', filename='images/manufacturingdep.png') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 80px; width: 80px; margin-right: 0px;"></span><span class="name">Manufacturing</span></div>
+            <div class="industry-item"><span class="icon"><img src="{{ url_for('static', filename='images/agriculturedep.png') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 80px; width: 80px; margin-right: 0px;"></span><span class="name">Agriculture</span></div>
+            <div class="industry-item"><span class="icon"><img src="{{ url_for('static', filename='images/logisticsdep.png') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 80px; width: 80px; margin-right: 0px;"></span><span class="name">Logistics</span></div>         
+        </div>
+    </div>
+</section>
+{% endblock %}

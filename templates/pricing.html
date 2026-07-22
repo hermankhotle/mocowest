@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Pricing - MOCOWEST{% endblock %}
+{% block content %}
+<section style="padding-top: 120px; background: var(--light); min-height: 100vh;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+        <div class="section-header">
+            <span class="badge">Pricing</span>
+            <h2>Choose Your Plan</h2>
+            <p>Flexible pricing options to suit your business needs</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+            <div style="background: var(--white); padding: 2.5rem; border-radius: 16px; box-shadow: var(--shadow); text-align: center;">
+                <h3 style="color: var(--primary);">Starter</h3>
+                <p style="font-size: 0.9rem; color: var(--gray); margin: 0.5rem 0;">Perfect for small businesses</p>
+                <div style="font-size: 3rem; font-weight: 700; color: var(--secondary); margin: 1.5rem 0;">R349<span style="font-size: 1rem; font-weight: 400; color: var(--gray);">/month</span></div>
+                <ul style="text-align: left; list-style: none; padding: 0; margin: 1.5rem 0;">
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ 1 Product License</li>
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ 5 Users Included</li>
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ Basic Support</li>
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ 10GB Storage</li>
+                    <li style="padding: 0.5rem 0; color: #ccc;">✗ Advanced Analytics</li>
+                </ul>
+                <a href="/contact" class="btn-primary" style="display: inline-block; width: 100%; text-align: center;">Get Started</a>
+            </div>
+            <div style="background: var(--white); padding: 2.5rem; border-radius: 16px; box-shadow: 0 10px 40px rgba(255,107,53,0.2); text-align: center; border: 2px solid var(--secondary); position: relative;">
+                <span style="position: absolute; top: -12px; right: 20px; background: var(--secondary); color: var(--white); padding: 0.3rem 1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 600;">Most Popular</span>
+                <h3 style="color: var(--primary);">Professional</h3>
+                <p style="font-size: 0.9rem; color: var(--gray); margin: 0.5rem 0;">For growing organizations</p>
+                <div style="font-size: 3rem; font-weight: 700; color: var(--secondary); margin: 1.5rem 0;">R599<span style="font-size: 1rem; font-weight: 400; color: var(--gray);">/month</span></div>
+                <ul style="text-align: left; list-style: none; padding: 0; margin: 1.5rem 0;">
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ 3 Product Licenses</li>
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ 20 Users Included</li>
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ Priority Support</li>
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ 50GB Storage</li>
+                    <li style="padding: 0.5rem 0;">✓ Advanced Analytics</li>
+                </ul>
+                <a href="/contact" class="btn-primary" style="display: inline-block; width: 100%; text-align: center;">Get Started</a>
+            </div>
+            <div style="background: var(--white); padding: 2.5rem; border-radius: 16px; box-shadow: var(--shadow); text-align: center;">
+                <h3 style="color: var(--primary);">Enterprise</h3>
+                <p style="font-size: 0.9rem; color: var(--gray); margin: 0.5rem 0;">For large enterprises</p>
+                <div style="font-size: 2.5rem; font-weight: 700; color: var(--secondary); margin: 1.5rem 0;">Custom<span style="font-size: 1rem; font-weight: 400; color: var(--gray);"> Pricing</span></div>
+                <ul style="text-align: left; list-style: none; padding: 0; margin: 1.5rem 0;">
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ Unlimited Products</li>
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ Unlimited Users</li>
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ 24/7 Premium Support</li>
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ Unlimited Storage</li>
+                    <li style="padding: 0.5rem 0;">✓ Dedicated Account Manager</li>
+                </ul>
+                <a href="/contact" class="btn-primary" style="display: inline-block; width: 100%; text-align: center;">Contact Sales</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

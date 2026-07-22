@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Support - MOCOWEST{% endblock %}
+{% block content %}
+<section style="padding-top: 120px; background: var(--light); min-height: 100vh;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+        <div class="section-header">
+            <span class="badge">Support</span>
+            <h2>How Can We Help?</h2>
+            <p>Get the support you need to succeed</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin: 2rem 0;">
+            <div style="text-align: center; padding: 2rem; background: var(--white); border-radius: 16px; box-shadow: var(--shadow);">
+                <span style="font-size: 2.5rem;">📚</span>
+                <h4 style="color: var(--primary); margin: 1rem 0;">Documentation</h4>
+                <p style="color: var(--gray);">Comprehensive guides and API references</p>
+                <a href="#" style="color: var(--secondary); text-decoration: none; font-weight: 600;">View Docs →</a>
+            </div>
+            <div style="text-align: center; padding: 2rem; background: var(--white); border-radius: 16px; box-shadow: var(--shadow);">
+                <span style="font-size: 2.5rem;">💬</span>
+                <h4 style="color: var(--primary); margin: 1rem 0;">Live Chat</h4>
+                <p style="color: var(--gray);">Chat with our support team in real-time</p>
+                <a href="#" style="color: var(--secondary); text-decoration: none; font-weight: 600;">Start Chat →</a>
+            </div>
+            <div style="text-align: center; padding: 2rem; background: var(--white); border-radius: 16px; box-shadow: var(--shadow);">
+                <span style="font-size: 2.5rem;">📧</span>
+                <h4 style="color: var(--primary); margin: 1rem 0;">Email Support</h4>
+                <p style="color: var(--gray);">We respond within 24 hours</p>
+                <a href="mailto:support@mocowest.co.za" style="color: var(--secondary); text-decoration: none; font-weight: 600;">support@mocowest.co.za</a>
+            </div>
+            <div style="text-align: center; padding: 2rem; background: var(--white); border-radius: 16px; box-shadow: var(--shadow);">
+                <span style="font-size: 2.5rem;">📞</span>
+                <h4 style="color: var(--primary); margin: 1rem 0;">Phone Support</h4>
+                <p style="color: var(--gray);">Available 24/7 for emergencies</p>
+                <a href="tel:+27112345678" style="color: var(--secondary); text-decoration: none; font-weight: 600;">+27 64 525 0678</a>
+            </div>
+        </div>
+        <h2 style="text-align: center; color: var(--primary); font-size: 2rem; margin: 3rem 0 2rem;">Frequently Asked Questions</h2>
+        <div style="display: grid; gap: 1rem; max-width: 800px; margin: 0 auto;">
+            <div style="background: var(--white); padding: 1.5rem; border-radius: 12px; box-shadow: var(--shadow);">
+                <h4 style="color: var(--primary);">What is MOCOWEST Cloud Platform?</h4>
+                <p style="color: var(--gray); margin-top: 0.5rem;">MOCOWEST is a cloud platform that provides intelligent software solutions for Education, Transportation, Finance, and Enterprises.</p>
+            </div>
+            <div style="background: var(--white); padding: 1.5rem; border-radius: 12px; box-shadow: var(--shadow);">
+                <h4 style="color: var(--primary);">How do I get started?</h4>
+                <p style="color: var(--gray); margin-top: 0.5rem;">Contact our sales team or sign up for a free demo. We'll help you choose the right solution for your needs.</p>
+            </div>
+            <div style="background: var(--white); padding: 1.5rem; border-radius: 12px; box-shadow: var(--shadow);">
+                <h4 style="color: var(--primary);">What kind of support do you offer?</h4>
+                <p style="color: var(--gray); margin-top: 0.5rem;">We offer documentation, live chat, email support, and 24/7 phone support for enterprise customers.</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin: 3rem 0; background: linear-gradient(135deg, var(--primary), var(--dark)); padding: 3rem; border-radius: 16px; color: var(--white);">
+            <h3 style="font-size: 1.8rem;">Still Have Questions?</h3>
+            <p style="opacity: 0.8; margin: 1rem 0;">Our team is ready to help you find the right solution</p>
+            <a href="/contact" class="btn-primary" style="background: var(--secondary); color: var(--white); display: inline-block;">Contact Us Now</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

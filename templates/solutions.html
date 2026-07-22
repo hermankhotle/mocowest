@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Solutions - MOCOWEST{% endblock %}
+{% block content %}
+<section style="padding-top: 120px; background: var(--light); min-height: 100vh;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+        <div class="section-header">
+            <span class="badge">Our Solutions</span>
+            <h2>Intelligent Software for Every Industry</h2>
+            <p>Powering digital transformation across Education, Transportation, Finance and beyond</p>
+        </div>
+        <div class="solutions-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+            <div class="solution-card" style="background: var(--white); padding: 2.5rem; border-radius: 16px; box-shadow: var(--shadow); border-left: 4px solid #00b4d8;">
+                <div class="icon" style="font-size: 3rem;"><img src="{{ url_for('static', filename='images/school.png') }}" 
+                     alt="MOCOWEST School System" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></div>
+                <h3 style="font-size: 1.5rem; color: var(--primary);">EduTrack</h3>
+                <p style="color: var(--gray);">School Book Retrieval &amp; Management System with QR Code, Inventory, Student Portal and comprehensive Reports.</p>
+                <ul style="margin-top: 1rem; list-style: none; padding: 0;">
+                    <li style="padding: 0.3rem 0; color: var(--gray);">✓ QR Code Tracking</li>
+                    <li style="padding: 0.3rem 0; color: var(--gray);">✓ Real-time Inventory</li>
+                    <li style="padding: 0.3rem 0; color: var(--gray);">✓ Student Portal Access</li>
+                    <li style="padding: 0.3rem 0; color: var(--gray);">✓ Analytics &amp; Reports</li>
+                </ul>
+            </div>
+            <div class="solution-card" style="background: var(--white); padding: 2.5rem; border-radius: 16px; box-shadow: var(--shadow); border-left: 4px solid #ff6b35;">
+                <div class="icon" style="font-size: 3rem;"><img src="{{ url_for('static', filename='images/st.png') }}" 
+                     alt="MOCOWEST Transi" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></div>
+                <h3 style="font-size: 1.5rem; color: var(--primary);">Transi</h3>
+                <p style="color: var(--gray);">Driver &amp; Staff Transportation Management with GPS Tracking, Scheduling, Fleet Management and more.</p>
+                <ul style="margin-top: 1rem; list-style: none; padding: 0;">
+                    <li style="padding: 0.3rem 0; color: var(--gray);">✓ GPS Live Tracking</li>
+                    <li style="padding: 0.3rem 0; color: var(--gray);">✓ Smart Scheduling</li>
+                    <li style="padding: 0.3rem 0; color: var(--gray);">✓ Fleet Management</li>
+                    <li style="padding: 0.3rem 0; color: var(--gray);">✓ Driver Analytics</li>
+                </ul>
+            </div>
+            <div class="solution-card" style="background: var(--white); padding: 2.5rem; border-radius: 16px; box-shadow: var(--shadow); border-left: 4px solid #ffd700;">
+                <div class="icon" style="font-size: 3rem;"><img src="{{ url_for('static', filename='images/finslee.png') }}" 
+                     alt="MOCOWEST FINSLEE" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></div>
+                <h3 style="font-size: 1.5rem; color: var(--primary);">FINSLEE</h3>
+                <p style="color: var(--gray);">Individual travelers &amp; Companies comprehensive financial technology platform for credit solution and payment gateways.</p>
+                <ul style="margin-top: 1rem; list-style: none; padding: 0;">
+                    <li style="padding: 0.3rem 0; color: var(--gray);">✓ Financial Tracking</li>
+                    <li style="padding: 0.3rem 0; color: var(--gray);">✓ Staff Management</li>
+                    <li style="padding: 0.3rem 0; color: var(--gray);">✓ Reporting Dashboard</li>
+                    <li style="padding: 0.3rem 0; color: var(--gray);">✓ Compliance Tools</li>
+                </ul>
+            </div>
+            <div class="solution-card" style="background: var(--white); padding: 2.5rem; border-radius: 16px; box-shadow: var(--shadow); border-left: 4px solid #9b59b6;">
+                <div class="icon" style="font-size: 3rem;"><img src="{{ url_for('static', filename='images/Custom.png') }}" 
+                     alt="MOCOWEST Custom" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></div>
+                <h3 style="font-size: 1.5rem; color: var(--primary);">Custom Solutions</h3>
+                <p style="color: var(--gray);">We build custom web and mobile applications tailored specifically for individuals and companies.</p>
+                <ul style="margin-top: 1rem; list-style: none; padding: 0;">
+                    <li style="padding: 0.3rem 0; color: var(--gray);">✓ Web Applications</li>
+                    <li style="padding: 0.3rem 0; color: var(--gray);">✓ Mobile Apps</li>
+                    <li style="padding: 0.3rem 0; color: var(--gray);">✓ API Integration</li>
+                    <li style="padding: 0.3rem 0; color: var(--gray);">✓ Enterprise Solutions</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MOCOWEST - Cloud Platform{% endblock %}</title>
+    <meta name="description" content="{% block description %}MOCOWEST Cloud Platform - Transforming ideas into intelligent software solutions.{% endblock %}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/mocowest.svg') }}">
+    <!--<link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">-->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="/" class="navbar-brand">
+                <!-- Option A: Text-based logo with icon 
+                <span style="font-size: 1.8rem; margin-right: 8px;">☁️</span>
+                MOCOWEST<span class="brand-highlight">.</span> -->
+                
+                <!-- Option B: Image logo (uncomment this and comment Option A above) -->
+                <img src="{{ url_for('static', filename='images/mocowestlogo.jpg') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 40px; width: auto; margin-right: 10px;">
+                <!--MOCOWEST<span class="brand-highlight">.</span> -->
+                
+            </a>
+            <ul class="navbar-nav" id="navMenu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/solutions">Solutions</a></li>
+                <li><a href="/products">Products</a></li>
+                <li><a href="/industries">Industries</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/pricing">Pricing</a></li>
+                <li><a href="/support">Support</a></li>
+                <li><a href="/contact" class="btn-nav-cta">Get Started</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+    <main>{% block content %}{% endblock %}</main>
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="navbar-brand">
+                <!-- Option A: Text-based logo with icon 
+                <span style="font-size: 1.8rem; margin-right: 8px;">☁️</span>
+                MOCOWEST<span class="brand-highlight">.</span> -->
+                
+                <!-- Option B: Image logo (uncomment this and comment Option A above) -->
+                <img src="{{ url_for('static', filename='images/mocowest.svg') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 80px; width: auto; margin-right: 10px;">
+                <!--MOCOWEST<span class="brand-highlight">.</span> -->
+                
+            </a>
+        <!--<h3>MOCOWEST<span class="highlight">.</span></h3> -->
+                    <p>Transforming ideas into intelligent software solutions. Built for Education, Transportation, Finance and Enterprises.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <a href="/about">About Us</a>
+                    <a href="/careers">Careers</a>
+                    <a href="/contact">Contact</a>
+                    <a href="/support">Support</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Solutions</h4>
+                    <a href="/solutions">EduTrack</a>
+                    <a href="/solutions">Transi</a>
+                    <a href="/solutions">FINSLEE</a>
+                    <a href="/solutions">Custom Solutions</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <a href="/blog">Blog</a>
+                    <a href="/docs">Documentation</a>
+                    <a href="/privacy">Privacy Policy</a>
+                    <a href="/terms">Terms of Service</a>
+                </div>
+            </div>
+            <div class="footer-bottom">&copy; 2026 MOCOWEST Cloud Platform. All rights reserved.</div>
+        </div>
+    </footer>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

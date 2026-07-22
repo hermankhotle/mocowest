@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Products - MOCOWEST{% endblock %}
+{% block content %}
+<section style="padding-top: 120px; background: var(--light); min-height: 100vh;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+        <div class="section-header">
+            <span class="badge">Our Products</span>
+            <h2>Intelligent Software Solutions</h2>
+            <p>Discover our complete suite of products designed to transform your business</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin-top: 2rem;">
+            <div style="background: var(--white); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow);">
+                <div style="background: linear-gradient(135deg, #00b4d8, #0077b6); padding: 2rem; text-align: center;">
+                    <!--<span style="font-size: 3rem;">🎓</span>-->
+                    <div><img src="{{ url_for('static', filename='images/school.png') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></div>
+                    <h3 style="color: var(--white); margin-top: 0.5rem;">EduTrack</h3>
+                </div>
+                <div style="padding: 2rem;">
+                    <p style="color: var(--gray);">School Book Retrieval & Management System with QR Code, Inventory, Student Portal and comprehensive Reports.</p>
+                    <ul style="margin: 1rem 0; list-style: none; padding: 0;">
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ QR Code Tracking System</li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ Real-time Inventory Management</li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ Student Portal Access</li>
+                        <li style="padding: 0.5rem 0;">✓ Analytics & Reports Dashboard</li>
+                    </ul>
+                    <a href="/contact" class="btn-primary" style="display: inline-block; width: 100%; text-align: center; padding: 0.8rem;">Request Demo</a>
+                </div>
+            </div>
+            <div style="background: var(--white); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow);">
+                <div style="background: linear-gradient(135deg, #ff6b35, #e63946); padding: 2rem; text-align: center;">
+                    <!--<span style="font-size: 3rem;">🚗</span>-->
+                    <div><img src="{{ url_for('static', filename='images/st.png') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></div>
+                    <h3 style="color: var(--white); margin-top: 0.5rem;">Transi</h3>
+                </div>
+                <div style="padding: 2rem;">
+                    <p style="color: var(--gray);">Driver & Staff Transportation Management with GPS Tracking, Scheduling, Fleet Management and more.</p>
+                    <ul style="margin: 1rem 0; list-style: none; padding: 0;">
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ GPS Live Tracking</li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ Smart Scheduling System</li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ Fleet Management Dashboard</li>
+                        <li style="padding: 0.5rem 0;">✓ Driver Analytics & Reports</li>
+                    </ul>
+                    <a href="/contact" class="btn-primary" style="display: inline-block; width: 100%; text-align: center; padding: 0.8rem;">Request Demo</a>
+                </div>
+            </div>
+            <div style="background: var(--white); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow);">
+                <div style="background: linear-gradient(135deg, #ffd700, #f4a100); padding: 2rem; text-align: center;">
+                    <!--<span style="font-size: 3rem;">💰</span>-->
+                    <div><img src="{{ url_for('static', filename='images/finslee.png') }}" 
+                     alt="MOCOWEST Logo" 
+                     style="height: 100px; width: 200px; margin-right: 0px;"></div>
+                    <h3 style="color: var(--white); margin-top: 0.5rem;">FINSLEE</h3>
+                </div>
+                <div style="padding: 2rem;">
+                    <p style="color: var(--gray);">Comprehensive financial technology platform for credit solution and payment gateways for individual travelers and company transportation management.</p>
+                    <ul style="margin: 1rem 0; list-style: none; padding: 0;">
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ Financial Tracking & Management</li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ Staff Management Tools</li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">✓ Reporting Dashboard</li>
+                        <li style="padding: 0.5rem 0;">✓ Compliance & Audit Tools</li>
+                    </ul>
+                    <a href="/contact" class="btn-primary" style="display: inline-block; width: 100%; text-align: center; padding: 0.8rem;">Request Demo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
