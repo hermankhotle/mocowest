@@ -1,0 +1,11 @@
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.bmp
+*.ico
+venv/
+__pycache__/
+.env
+*.pyc
