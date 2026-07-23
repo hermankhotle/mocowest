@@ -1,17 +1,14 @@
-services:
+﻿services:
   - type: web
     name: mocowest
-    env: python
+    runtime: python
+    plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
     envVars:
       - key: FLASK_ENV
         value: production
+      - key: PYTHON_VERSION
+        value: 3.11.0
       - key: SECRET_KEY
         generateValue: true
-      - key: MAIL_SERVER
-        value: mail.mocowest.co.za
-      - key: MAIL_PORT
-        value: 587
-      - key: MAIL_USE_TLS
-        value: true
