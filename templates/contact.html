@@ -11,7 +11,8 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1000px; margin: 0 auto;">
             <div>
                 <form id="contactForm" method="POST" style="background: var(--white); padding: 2.5rem; border-radius: 16px; box-shadow: var(--shadow);">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <!-- Hidden CSRF token field (for form submission) -->
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <div id="formStatus" style="display: none; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;"></div>
                     
                     <div style="margin-bottom: 1.5rem;">
@@ -65,6 +66,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contactForm');
     const formStatus = document.getElementById('formStatus');
     
+    // Get CSRF token from meta tag
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    
     if (contactForm) {
         contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -84,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     method: 'POST',
                     headers: { 
                         'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken  // <-- CRITICAL: Add CSRF token here
                     },
                     body: JSON.stringify(data)
                 });
