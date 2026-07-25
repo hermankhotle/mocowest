@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_mail import Mail, Message
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -12,13 +12,14 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
-app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'mail.mocowest.co.za')
 app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
 app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'true').lower() == 'true'
 app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER', app.config['MAIL_USERNAME'])
 
+# Initialize extensions
 csrf = CSRFProtect(app)
 mail = Mail(app)
 limiter = Limiter(app=app, key_func=get_remote_address, default_limits=["200 per day", "50 per hour"])
@@ -63,12 +64,21 @@ def contact():
     if request.method == 'POST':
         try:
             data = request.get_json()
+            logger.info(f"Contact form data received: {data}")
+            
+            # Validate required fields
             required_fields = ['name', 'email', 'subject', 'message']
             for field in required_fields:
                 if not data.get(field):
                     return jsonify({'error': f'{field} is required'}), 400
             
-            if app.config['MAIL_USERNAME'] and app.config['MAIL_PASSWORD']:
+            # Check if email is configured
+            if not app.config['MAIL_USERNAME'] or not app.config['MAIL_PASSWORD']:
+                logger.error("Mail not configured. Please set MAIL_USERNAME and MAIL_PASSWORD")
+                return jsonify({'error': 'Mail server not configured. Please contact support.'}), 500
+            
+            # Send email
+            try:
                 msg_body = f"""New contact form submission:
 
 Name: {data['name']}
@@ -80,21 +90,32 @@ Message:
 Submitted on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"""
                 
                 msg = Message(
-                    subject=f"Contact Form: {data['subject']}",
+                    subject=f"MOCOWEST Contact Form: {data['subject']}",
                     sender=app.config['MAIL_DEFAULT_SENDER'],
                     recipients=[app.config['MAIL_USERNAME']],
-                    body=msg_body
+                    body=msg_body,
+                    reply_to=data['email']
                 )
                 mail.send(msg)
-                logger.info(f"Contact form submitted by {data['email']}")
+                logger.info(f"Contact form submitted successfully by {data['email']}")
+                
+                return jsonify({
+                    'success': True, 
+                    'message': 'Message sent successfully! We will get back to you soon.'
+                }), 200
+                
+            except Exception as e:
+                logger.error(f"Failed to send email: {str(e)}")
+                return jsonify({'error': f'Failed to send email. Please try again later.'}), 500
             
-            return jsonify({'success': True, 'message': 'Message sent successfully!'}), 200
         except Exception as e:
             logger.error(f"Contact form error: {str(e)}")
             return jsonify({'error': 'Failed to send message. Please try again.'}), 500
-    return render_template('contact.html')
+    
+    # Pass CSRF token to template for GET requests
+    csrf_token = generate_csrf()
+    return render_template('contact.html', csrf_token=csrf_token)
 
-# Policy Pages
 @app.route('/privacy')
 def privacy():
     return render_template('privacy.html')
@@ -125,5 +146,3 @@ def internal_server_error(e):
 
 if __name__ == '__main__':
     app.run(debug=os.getenv('FLASK_ENV') == 'development', host='0.0.0.0', port=int(os.getenv('PORT', 5000)))
-
-    
