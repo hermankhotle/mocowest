@@ -11,6 +11,8 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1000px; margin: 0 auto;">
             <div>
                 <form id="contactForm" method="POST" style="background: var(--white); padding: 2.5rem; border-radius: 16px; box-shadow: var(--shadow);">
+                    <div id="formStatus" style="display: none; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;"></div>
+                    
                     <div style="margin-bottom: 1.5rem;">
                         <label for="name" style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--primary);">Full Name</label>
                         <input type="text" id="name" name="name" required style="width: 100%; padding: 0.8rem 1rem; border: 2px solid #e9ecef; border-radius: 8px; font-size: 1rem;">
@@ -36,7 +38,7 @@
                     <div style="margin-bottom: 2rem;">
                         <!--<div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
                             <span style="font-size: 1.5rem;">📍</span>
-                            <div><strong style="display: block; color: var(--secondary);">Address</strong><span>123 Coca Cola, Oxford Road<br>Johannesburg, South Africa</span></div>
+                            <div><strong style="display: block; color: var(--secondary);">Address</strong><span>123 Tech Park, Innovation Drive<br>Johannesburg, South Africa</span></div>
                         </div>-->
                         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
                             <span style="font-size: 1.5rem;">📧</span>
@@ -56,4 +58,68 @@
         </div>
     </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contactForm');
+    const formStatus = document.getElementById('formStatus');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
+            // Show loading state
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            formStatus.style.display = 'none';
+            
+            try {
+                const response = await fetch('/contact', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    // Success
+                    formStatus.style.display = 'block';
+                    formStatus.style.background = '#d4edda';
+                    formStatus.style.color = '#155724';
+                    formStatus.style.border = '1px solid #c3e6cb';
+                    formStatus.textContent = '✅ ' + result.message;
+                    this.reset();
+                } else {
+                    // Error from server
+                    formStatus.style.display = 'block';
+                    formStatus.style.background = '#f8d7da';
+                    formStatus.style.color = '#721c24';
+                    formStatus.style.border = '1px solid #f5c6cb';
+                    formStatus.textContent = '❌ ' + (result.error || 'Something went wrong. Please try again.');
+                }
+            } catch (error) {
+                // Network error
+                formStatus.style.display = 'block';
+                formStatus.style.background = '#f8d7da';
+                formStatus.style.color = '#721c24';
+                formStatus.style.border = '1px solid #f5c6cb';
+                formStatus.textContent = '❌ Network error. Please check your connection and try again.';
+                console.error('Contact form error:', error);
+            } finally {
+                // Reset button
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    }
+});
+</script>
 {% endblock %}
