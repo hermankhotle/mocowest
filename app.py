@@ -27,6 +27,11 @@ limiter = Limiter(app=app, key_func=get_remote_address, default_limits=["200 per
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Make CSRF token available to all templates
+@app.context_processor
+def inject_csrf_token():
+    return dict(csrf_token=generate_csrf)
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -106,15 +111,13 @@ Submitted on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"""
                 
             except Exception as e:
                 logger.error(f"Failed to send email: {str(e)}")
-                return jsonify({'error': f'Failed to send email. Please try again later.'}), 500
+                return jsonify({'error': 'Failed to send email. Please try again later.'}), 500
             
         except Exception as e:
             logger.error(f"Contact form error: {str(e)}")
             return jsonify({'error': 'Failed to send message. Please try again.'}), 500
     
-    # Pass CSRF token to template for GET requests
-    csrf_token = generate_csrf()
-    return render_template('contact.html', csrf_token=csrf_token)
+    return render_template('contact.html')
 
 @app.route('/privacy')
 def privacy():
