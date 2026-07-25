@@ -11,6 +11,7 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1000px; margin: 0 auto;">
             <div>
                 <form id="contactForm" method="POST" style="background: var(--white); padding: 2.5rem; border-radius: 16px; box-shadow: var(--shadow);">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                     <div id="formStatus" style="display: none; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;"></div>
                     
                     <div style="margin-bottom: 1.5rem;">
@@ -36,10 +37,10 @@
                 <div style="background: var(--primary); color: var(--white); padding: 2.5rem; border-radius: 16px; height: 100%;">
                     <h3 style="font-size: 1.5rem; margin-bottom: 2rem;">Contact Information</h3>
                     <div style="margin-bottom: 2rem;">
-                        <!--<div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
                             <span style="font-size: 1.5rem;">📍</span>
                             <div><strong style="display: block; color: var(--secondary);">Address</strong><span>123 Tech Park, Innovation Drive<br>Johannesburg, South Africa</span></div>
-                        </div>-->
+                        </div>
                         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
                             <span style="font-size: 1.5rem;">📧</span>
                             <div><strong style="display: block; color: var(--secondary);">Email</strong><span>info@mocowest.co.za</span></div>
