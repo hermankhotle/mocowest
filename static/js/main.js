@@ -69,33 +69,99 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
 });
+// document.addEventListener('DOMContentLoaded', function() {
+//     const contactForm = document.getElementById('contactForm');
+//     if (contactForm) {
+//         contactForm.addEventListener('submit', async function(e) {
+//             e.preventDefault();
+//             const formData = new FormData(this);
+//             const data = Object.fromEntries(formData);
+//             const submitBtn = this.querySelector('button[type="submit"]');
+//             const originalText = submitBtn.textContent;
+//             submitBtn.textContent = 'Sending...';
+//             submitBtn.disabled = true;
+//             try {
+//                 const response = await fetch('/contact', {
+//                     method: 'POST',
+//                     headers: { 'Content-Type': 'application/json' },
+//                     body: JSON.stringify(data)
+//                 });
+//                 const result = await response.json();
+//                 if (response.ok) {
+//                     alert('Message sent successfully!');
+//                     this.reset();
+//                 } else {
+//                     alert('Error: ' + (result.error || 'Something went wrong.'));
+//                 }
+//             } catch (error) {
+//                 alert('Network error. Please try again.');
+//             } finally {
+//                 submitBtn.textContent = originalText;
+//                 submitBtn.disabled = false;
+//             }
+//         });
+//     }
+// });
+
 document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contactForm');
+    const formStatus = document.getElementById('formStatus');
+    
+    // Get CSRF token from meta tag
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    
     if (contactForm) {
         contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
+            
             const formData = new FormData(this);
             const data = Object.fromEntries(formData);
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContent;
+            
+            // Show loading state
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
+            formStatus.style.display = 'none';
+            
             try {
                 const response = await fetch('/contact', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken  // <-- CRITICAL: Add CSRF token here
+                    },
                     body: JSON.stringify(data)
                 });
+                
                 const result = await response.json();
-                if (response.ok) {
-                    alert('Message sent successfully!');
+                
+                if (response.ok && result.success) {
+                    // Success
+                    formStatus.style.display = 'block';
+                    formStatus.style.background = '#d4edda';
+                    formStatus.style.color = '#155724';
+                    formStatus.style.border = '1px solid #c3e6cb';
+                    formStatus.textContent = '✅ ' + result.message;
                     this.reset();
                 } else {
-                    alert('Error: ' + (result.error || 'Something went wrong.'));
+                    // Error from server
+                    formStatus.style.display = 'block';
+                    formStatus.style.background = '#f8d7da';
+                    formStatus.style.color = '#721c24';
+                    formStatus.style.border = '1px solid #f5c6cb';
+                    formStatus.textContent = '❌ ' + (result.error || 'Something went wrong. Please try again.');
                 }
             } catch (error) {
-                alert('Network error. Please try again.');
+                // Network error
+                formStatus.style.display = 'block';
+                formStatus.style.background = '#f8d7da';
+                formStatus.style.color = '#721c24';
+                formStatus.style.border = '1px solid #f5c6cb';
+                formStatus.textContent = '❌ Network error. Please check your connection and try again.';
+                console.error('Contact form error:', error);
             } finally {
+                // Reset button
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
             }
