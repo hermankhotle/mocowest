@@ -11,7 +11,6 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1000px; margin: 0 auto;">
             <div>
                 <form id="contactForm" method="POST" style="background: var(--white); padding: 2.5rem; border-radius: 16px; box-shadow: var(--shadow);">
-                    <!-- Hidden CSRF token field (for form submission) -->
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <div id="formStatus" style="display: none; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;"></div>
                     
@@ -38,10 +37,10 @@
                 <div style="background: var(--primary); color: var(--white); padding: 2.5rem; border-radius: 16px; height: 100%;">
                     <h3 style="font-size: 1.5rem; margin-bottom: 2rem;">Contact Information</h3>
                     <div style="margin-bottom: 2rem;">
-                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <!-- <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
                             <span style="font-size: 1.5rem;">📍</span>
                             <div><strong style="display: block; color: var(--secondary);">Address</strong><span>123 Tech Park, Innovation Drive<br>Johannesburg, South Africa</span></div>
-                        </div>
+                        </div> -->
                         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
                             <span style="font-size: 1.5rem;">📧</span>
                             <div><strong style="display: block; color: var(--secondary);">Email</strong><span>info@mocowest.co.za</span></div>
@@ -61,71 +60,87 @@
     </div>
 </section>
 
-<!-- <script>
+<script>
+// Contact form handler - only runs on contact page
 document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contactForm');
     const formStatus = document.getElementById('formStatus');
     
-    // Get CSRF token from meta tag
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    if (!contactForm) {
+        console.error('Contact form not found!');
+        return;
+    }
     
-    if (contactForm) {
-        contactForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
+    // Get CSRF token from meta tag
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    console.log('CSRF Token found:', csrfToken ? 'Yes - ' + csrfToken.substring(0, 20) + '...' : 'NO!');
+    
+    if (!csrfToken) {
+        console.error('CSRF token not found in meta tag!');
+        formStatus.style.display = 'block';
+        formStatus.style.background = '#f8d7da';
+        formStatus.style.color = '#721c24';
+        formStatus.style.border = '1px solid #f5c6cb';
+        formStatus.textContent = '❌ CSRF token missing. Please refresh the page.';
+        return;
+    }
+    
+    contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        console.log('Form submitted');
+        
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData);
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+        formStatus.style.display = 'none';
+        
+        try {
+            console.log('Sending data with CSRF token:', csrfToken.substring(0, 20) + '...');
             
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
+            const response = await fetch('/contact', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken || ''
+                },
+                body: JSON.stringify(data)
+            });
             
-            // Show loading state
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
-            formStatus.style.display = 'none';
+            console.log('Response status:', response.status);
+            const result = await response.json();
+            console.log('Response data:', result);
             
-            try {
-                const response = await fetch('/contact', {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': csrfToken  // <-- CRITICAL: Add CSRF token here
-                    },
-                    body: JSON.stringify(data)
-                });
-                
-                const result = await response.json();
-                
-                if (response.ok && result.success) {
-                    // Success
-                    formStatus.style.display = 'block';
-                    formStatus.style.background = '#d4edda';
-                    formStatus.style.color = '#155724';
-                    formStatus.style.border = '1px solid #c3e6cb';
-                    formStatus.textContent = '✅ ' + result.message;
-                    this.reset();
-                } else {
-                    // Error from server
-                    formStatus.style.display = 'block';
-                    formStatus.style.background = '#f8d7da';
-                    formStatus.style.color = '#721c24';
-                    formStatus.style.border = '1px solid #f5c6cb';
-                    formStatus.textContent = '❌ ' + (result.error || 'Something went wrong. Please try again.');
-                }
-            } catch (error) {
-                // Network error
+            if (response.ok && result.success) {
+                formStatus.style.display = 'block';
+                formStatus.style.background = '#d4edda';
+                formStatus.style.color = '#155724';
+                formStatus.style.border = '1px solid #c3e6cb';
+                formStatus.textContent = '✅ ' + result.message;
+                this.reset();
+            } else {
                 formStatus.style.display = 'block';
                 formStatus.style.background = '#f8d7da';
                 formStatus.style.color = '#721c24';
                 formStatus.style.border = '1px solid #f5c6cb';
-                formStatus.textContent = '❌ Network error. Please check your connection and try again.';
-                console.error('Contact form error:', error);
-            } finally {
-                // Reset button
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
+                formStatus.textContent = '❌ ' + (result.error || 'Something went wrong.');
             }
-        });
-    }
+        } catch (error) {
+            console.error('Contact form error:', error);
+            formStatus.style.display = 'block';
+            formStatus.style.background = '#f8d7da';
+            formStatus.style.color = '#721c24';
+            formStatus.style.border = '1px solid #f5c6cb';
+            formStatus.textContent = '❌ Network error. Please try again.';
+        } finally {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    });
 });
-</script> -->
+</script>
+
 {% endblock %}
