@@ -11,16 +11,13 @@ load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
 
-# Gmail SMTP Configuration - FIXED
+# Gmail SMTP Configuration
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_USERNAME'] = 'hermankhotle@gmail.com'
 app.config['MAIL_PASSWORD'] = 'hjwfzyxyhafgopqh'  # Your app password (no spaces)
 app.config['MAIL_DEFAULT_SENDER'] = 'hermankhotle@gmail.com'
-app.config['MAIL_MAX_EMAILS'] = None
-app.config['MAIL_ASCII_ATTACHMENTS'] = False
 
 # Initialize extensions
 csrf = CSRFProtect(app)
@@ -97,15 +94,11 @@ Submitted on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"""
                 msg = Message(
                     subject=f"MOCOWEST Contact Form: {data['subject']}",
                     sender=app.config['MAIL_DEFAULT_SENDER'],
-                    recipients=['hermankhotle@gmail.com'],
+                    recipients=['hermankhotle@gmail.com'],  # Where emails are sent
                     body=msg_body,
                     reply_to=data['email']
                 )
-                
-                # Send the email
-                with app.app_context():
-                    mail.send(msg)
-                
+                mail.send(msg)
                 logger.info(f"Email sent successfully to {data['email']}")
                 
                 return jsonify({

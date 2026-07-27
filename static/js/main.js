@@ -70,5 +70,3 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// ===== NO CONTACT FORM CODE HERE =====
-// Contact form is handled in contact.html only
