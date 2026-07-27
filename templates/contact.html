@@ -62,22 +62,26 @@
 </section>
 
 <script>
-// Contact form handler - only runs on contact page
+// Contact form handler - with full debugging
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('🔍 Contact form script loaded');
+    
     const contactForm = document.getElementById('contactForm');
     const formStatus = document.getElementById('formStatus');
     
     if (!contactForm) {
-        console.error('Contact form not found!');
+        console.error('❌ Contact form not found!');
         return;
     }
     
+    console.log('✅ Contact form found');
+    
     // Get CSRF token from meta tag
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-    console.log('CSRF Token found:', csrfToken ? 'Yes - ' + csrfToken.substring(0, 20) + '...' : 'NO!');
+    console.log('🔑 CSRF Token:', csrfToken ? '✅ Found: ' + csrfToken.substring(0, 30) + '...' : '❌ NOT FOUND!');
     
     if (!csrfToken) {
-        console.error('CSRF token not found in meta tag!');
+        console.error('❌ CSRF token not found in meta tag!');
         formStatus.style.display = 'block';
         formStatus.style.background = '#f8d7da';
         formStatus.style.color = '#721c24';
@@ -86,12 +90,18 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
     
+    // Log the current URL
+    console.log('📍 Current URL:', window.location.href);
+    console.log('📍 Origin:', window.location.origin);
+    
     contactForm.addEventListener('submit', async function(e) {
         e.preventDefault();
-        console.log('Form submitted');
+        console.log('📤 Form submitted');
         
         const formData = new FormData(this);
         const data = Object.fromEntries(formData);
+        console.log('📝 Form data:', data);
+        
         const submitBtn = this.querySelector('button[type="submit"]');
         const originalText = submitBtn.textContent;
         
@@ -99,34 +109,42 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.disabled = true;
         formStatus.style.display = 'none';
         
+        // Try multiple URL approaches
+        const urls = [
+            '/contact',                           // Relative URL
+            window.location.origin + '/contact', // Full URL with origin
+            'https://www.mocowest.co.za/contact', // Hardcoded
+            'https://mocowest.co.za/contact'      // Without www
+        ];
+        
+        console.log('🔗 Trying URL:', urls[0]);
+        
         try {
-            console.log('Sending data with CSRF token:', csrfToken.substring(0, 20) + '...');
-            
-            // const response = await fetch('/contact', {
-            //     method: 'POST',
-            //     headers: { 
-            //         'Content-Type': 'application/json',
-            //         'X-CSRFToken': csrfToken || ''
-            //     },
-            //     body: JSON.stringify(data)
-            // });
-
-            const API_BASE = process.env.NODE_ENV === 'production' 
-            ? 'https://www.mocowest.co.za' 
-            : '';
-
-            const response = await fetch(`${API_BASE}/contact`, { 
-            method: 'POST', 
-            headers: { 
-            'Content-Type': 'application/json', 
-            'X-CSRFToken': csrfToken || '' 
-            }, 
-            body: JSON.stringify(data) 
+            const response = await fetch('/contact', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken || '',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(data)
             });
             
-            console.log('Response status:', response.status);
-            const result = await response.json();
-            console.log('Response data:', result);
+            console.log('📊 Response status:', response.status);
+            console.log('📊 Response headers:', response.headers);
+            
+            // Try to get response as text first to see if it's HTML
+            const responseText = await response.text();
+            console.log('📄 Response text (first 200 chars):', responseText.substring(0, 200));
+            
+            let result;
+            try {
+                result = JSON.parse(responseText);
+                console.log('✅ Parsed JSON:', result);
+            } catch (e) {
+                console.error('❌ Failed to parse JSON. Response was HTML or plain text.');
+                throw new Error('Server returned non-JSON response. Status: ' + response.status);
+            }
             
             if (response.ok && result.success) {
                 formStatus.style.display = 'block';
@@ -135,20 +153,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 formStatus.style.border = '1px solid #c3e6cb';
                 formStatus.textContent = '✅ ' + result.message;
                 this.reset();
+                console.log('✅ Form submitted successfully!');
             } else {
                 formStatus.style.display = 'block';
                 formStatus.style.background = '#f8d7da';
                 formStatus.style.color = '#721c24';
                 formStatus.style.border = '1px solid #f5c6cb';
                 formStatus.textContent = '❌ ' + (result.error || 'Something went wrong.');
+                console.error('❌ Server error:', result);
             }
         } catch (error) {
-            console.error('Contact form error:', error);
+            console.error('❌ Contact form error:', error);
             formStatus.style.display = 'block';
             formStatus.style.background = '#f8d7da';
             formStatus.style.color = '#721c24';
             formStatus.style.border = '1px solid #f5c6cb';
-            formStatus.textContent = '❌ Network error. Please try again.';
+            formStatus.textContent = '❌ Error: ' + (error.message || 'Network error. Please try again.');
         } finally {
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
