@@ -102,13 +102,26 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             console.log('Sending data with CSRF token:', csrfToken.substring(0, 20) + '...');
             
-            const response = await fetch('/contact', {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken || ''
-                },
-                body: JSON.stringify(data)
+            // const response = await fetch('/contact', {
+            //     method: 'POST',
+            //     headers: { 
+            //         'Content-Type': 'application/json',
+            //         'X-CSRFToken': csrfToken || ''
+            //     },
+            //     body: JSON.stringify(data)
+            // });
+
+            const API_BASE = process.env.NODE_ENV === 'production' 
+            ? 'https://www.mocowest.co.za' 
+            : '';
+
+            const response = await fetch(`${API_BASE}/contact`, { 
+            method: 'POST', 
+            headers: { 
+            'Content-Type': 'application/json', 
+            'X-CSRFToken': csrfToken || '' 
+            }, 
+            body: JSON.stringify(data) 
             });
             
             console.log('Response status:', response.status);
