@@ -10,12 +10,14 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
-app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'mail.mocowest.co.za')
-app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 465))
-app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'true').lower() == 'true'
-app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
-app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER', app.config['MAIL_USERNAME'])
+
+# Gmail SMTP Configuration
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'hermankhotle@gmail.com'
+app.config['MAIL_PASSWORD'] = 'hjwfzyxyhafgopqh'  # Your app password (no spaces)
+app.config['MAIL_DEFAULT_SENDER'] = 'hermankhotle@gmail.com'
 
 # Initialize extensions
 csrf = CSRFProtect(app)
@@ -66,6 +68,9 @@ def contact():
     if request.method == 'POST':
         try:
             data = request.get_json()
+            if not data:
+                return jsonify({'error': 'No data received'}), 400
+            
             logger.info(f"Contact form data received from: {data.get('email', 'unknown')}")
             
             # Validate required fields
@@ -74,13 +79,9 @@ def contact():
                 if not data.get(field):
                     return jsonify({'error': f'{field} is required'}), 400
             
-            # Check email configuration
-            if not app.config['MAIL_USERNAME'] or not app.config['MAIL_PASSWORD']:
-                logger.error("Mail not configured")
-                return jsonify({'error': 'Mail server not configured'}), 500
-            
             # Send email
-            msg_body = f"""New contact form submission:
+            try:
+                msg_body = f"""New contact form submission:
 
 Name: {data['name']}
 Email: {data['email']}
@@ -89,21 +90,27 @@ Message:
 {data['message']}
 
 Submitted on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"""
-            
-            msg = Message(
-                subject=f"MOCOWEST Contact Form: {data['subject']}",
-                sender=app.config['MAIL_DEFAULT_SENDER'],
-                recipients=[app.config['MAIL_USERNAME']],
-                body=msg_body,
-                reply_to=data['email']
-            )
-            mail.send(msg)
-            logger.info(f"Email sent successfully to {data['email']}")
-            
-            return jsonify({
-                'success': True,
-                'message': 'Message sent successfully! We will get back to you soon.'
-            }), 200
+                
+                msg = Message(
+                    subject=f"MOCOWEST Contact Form: {data['subject']}",
+                    sender=app.config['MAIL_DEFAULT_SENDER'],
+                    recipients=['hermankhotle@gmail.com'],  # Where emails are sent
+                    body=msg_body,
+                    reply_to=data['email']
+                )
+                mail.send(msg)
+                logger.info(f"Email sent successfully to {data['email']}")
+                
+                return jsonify({
+                    'success': True,
+                    'message': 'Message sent successfully! We will get back to you soon.'
+                }), 200
+                
+            except Exception as email_error:
+                logger.error(f"Email error: {str(email_error)}")
+                return jsonify({
+                    'error': f'Failed to send email. Please try again later.'
+                }), 500
             
         except Exception as e:
             logger.error(f"Contact form error: {str(e)}")
@@ -141,5 +148,4 @@ def internal_server_error(e):
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
-    # Use FLASK_DEBUG instead of FLASK_ENV
     app.run(debug=os.getenv('FLASK_DEBUG', '0') == '1', host='0.0.0.0', port=port)
