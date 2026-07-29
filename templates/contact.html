@@ -37,7 +37,10 @@
                 <div style="background: var(--primary); color: var(--white); padding: 2.5rem; border-radius: 16px; height: 100%;">
                     <h3 style="font-size: 1.5rem; margin-bottom: 2rem;">Contact Information</h3>
                     <div style="margin-bottom: 2rem;">
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
                         <!-- <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
                             <span style="font-size: 1.5rem;">📍</span>
                             <div><strong style="display: block; color: var(--secondary);">Address</strong><span>123 Tech Park, Innovation Drive<br>Johannesburg, South Africa</span></div>
@@ -60,6 +63,140 @@
         </div>
     </div>
 </section>
+
+<<<<<<< Updated upstream
+<script>
+// Contact form handler - with full debugging
+=======
+<!-- <script>
+// Contact form handler - only runs on contact page
+>>>>>>> Stashed changes
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🔍 Contact form script loaded');
+    
+    const contactForm = document.getElementById('contactForm');
+    const formStatus = document.getElementById('formStatus');
+    
+    if (!contactForm) {
+        console.error('❌ Contact form not found!');
+        return;
+    }
+    
+    console.log('✅ Contact form found');
+    
+    // Get CSRF token from meta tag
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    console.log('🔑 CSRF Token:', csrfToken ? '✅ Found: ' + csrfToken.substring(0, 30) + '...' : '❌ NOT FOUND!');
+    
+    if (!csrfToken) {
+        console.error('❌ CSRF token not found in meta tag!');
+        formStatus.style.display = 'block';
+        formStatus.style.background = '#f8d7da';
+        formStatus.style.color = '#721c24';
+        formStatus.style.border = '1px solid #f5c6cb';
+        formStatus.textContent = '❌ CSRF token missing. Please refresh the page.';
+        return;
+    }
+    
+    // Log the current URL
+    console.log('📍 Current URL:', window.location.href);
+    console.log('📍 Origin:', window.location.origin);
+    
+    contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        console.log('📤 Form submitted');
+        
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData);
+        console.log('📝 Form data:', data);
+        
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+        formStatus.style.display = 'none';
+        
+        // Try multiple URL approaches
+        const urls = [
+            '/contact',                           // Relative URL
+            window.location.origin + '/contact', // Full URL with origin
+            'https://www.mocowest.co.za/contact', // Hardcoded
+            'https://mocowest.co.za/contact'      // Without www
+        ];
+        
+        console.log('🔗 Trying URL:', urls[0]);
+        
+        try {
+            const response = await fetch('/contact', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken || '',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            // const API_BASE = process.env.NODE_ENV === 'production' 
+            // ? 'http://127.0.0.1:5000/contact' 
+            // : '';
+
+            // const response = await fetch(`${API_BASE}/contact`, { 
+            //  method: 'POST', 
+            //     headers: { 
+            //  'Content-Type': 'application/json', 
+            //     'X-CSRFToken': csrfToken || '' 
+            //      }, 
+            //     body: JSON.stringify(data) 
+            //     });
+            
+            console.log('📊 Response status:', response.status);
+            console.log('📊 Response headers:', response.headers);
+            
+            // Try to get response as text first to see if it's HTML
+            const responseText = await response.text();
+            console.log('📄 Response text (first 200 chars):', responseText.substring(0, 200));
+            
+            let result;
+            try {
+                result = JSON.parse(responseText);
+                console.log('✅ Parsed JSON:', result);
+            } catch (e) {
+                console.error('❌ Failed to parse JSON. Response was HTML or plain text.');
+                throw new Error('Server returned non-JSON response. Status: ' + response.status);
+            }
+            
+            if (response.ok && result.success) {
+                formStatus.style.display = 'block';
+                formStatus.style.background = '#d4edda';
+                formStatus.style.color = '#155724';
+                formStatus.style.border = '1px solid #c3e6cb';
+                formStatus.textContent = '✅ ' + result.message;
+                this.reset();
+                console.log('✅ Form submitted successfully!');
+            } else {
+                formStatus.style.display = 'block';
+                formStatus.style.background = '#f8d7da';
+                formStatus.style.color = '#721c24';
+                formStatus.style.border = '1px solid #f5c6cb';
+                formStatus.textContent = '❌ ' + (result.error || 'Something went wrong.');
+                console.error('❌ Server error:', result);
+            }
+        } catch (error) {
+            console.error('❌ Contact form error:', error);
+            formStatus.style.display = 'block';
+            formStatus.style.background = '#f8d7da';
+            formStatus.style.color = '#721c24';
+            formStatus.style.border = '1px solid #f5c6cb';
+            formStatus.textContent = '❌ Error: ' + (error.message || 'Network error. Please try again.');
+        } finally {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+});
+</script> -->
 
 <script>
 // Contact form handler - with full debugging
@@ -177,6 +314,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<<<<<<< Updated upstream
 
 {% endblock %}
 
+=======
+{% endblock %}
+>>>>>>> Stashed changes

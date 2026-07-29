@@ -1,17 +1,18 @@
 from flask import Flask, render_template, request, jsonify
 from flask_wtf.csrf import CSRFProtect, generate_csrf
-from flask_mail import Mail, Message
 from dotenv import load_dotenv
 import os
 import logging
 import threading
 from datetime import datetime
+from mailersend import MailerSendClient, EmailBuilder
 
 load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
 
+<<<<<<< Updated upstream
 # Gmail SMTP Configuration
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
@@ -24,8 +25,10 @@ app.config['MAIL_MAX_EMAILS'] = None
 app.config['MAIL_ASCII_ATTACHMENTS'] = False
 
 # Initialize extensions
+=======
+# Initialize CSRF
+>>>>>>> Stashed changes
 csrf = CSRFProtect(app)
-mail = Mail(app)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -35,11 +38,32 @@ logger = logging.getLogger(__name__)
 def inject_csrf_token():
     return dict(csrf_token=generate_csrf)
 
+<<<<<<< Updated upstream
 # Function to send email in background
 def send_email_async(data):
     try:
         with app.app_context():
             msg_body = f"""New contact form submission:
+=======
+# Initialize MailerSend
+mailersend_api_key = os.getenv('MAILERSEND_API_KEY')
+mailersend_from_email = os.getenv('MAILERSEND_FROM_EMAIL', 'info@mocowest.co.za')
+mailersend_to_email = os.getenv('MAILERSEND_TO_EMAIL', 'info@mocowest.co.za')
+
+# Function to send email using MailerSend
+def send_email_async(data):
+    try:
+        if not mailersend_api_key:
+            logger.error("❌ MailerSend API key not configured")
+            return
+        
+        # Initialize MailerSend client
+        ms = MailerSendClient(mailersend_api_key)
+        
+        # Build email
+        email_body = f"""
+New contact form submission from MOCOWEST:
+>>>>>>> Stashed changes
 
 Name: {data['name']}
 Email: {data['email']}
@@ -47,6 +71,7 @@ Subject: {data['subject']}
 Message:
 {data['message']}
 
+<<<<<<< Updated upstream
 Submitted on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"""
             
             msg = Message(
@@ -61,6 +86,73 @@ Submitted on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"""
             logger.info(f"✅ Email sent successfully to {data['email']}")
     except Exception as e:
         logger.error(f"❌ Email error: {str(e)}")
+=======
+Submitted on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+
+Reply to: {data['email']}
+"""
+        
+        email = (EmailBuilder()
+                 .from_email(mailersend_from_email, "MOCOWEST Website")
+                 .to_many([{"email": mailersend_to_email, "name": "MOCOWEST Team"}])
+                 .subject(f"MOCOWEST Contact Form: {data['subject']}")
+                 .text(email_body)
+                 .html(f"""
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {{ font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }}
+        .header {{ background: #1a2a6c; color: white; padding: 20px; border-radius: 10px 10px 0 0; }}
+        .content {{ background: #f8f9fa; padding: 20px; border-radius: 0 0 10px 10px; }}
+        .field {{ margin: 10px 0; }}
+        .label {{ font-weight: bold; color: #1a2a6c; }}
+        .value {{ color: #333; }}
+        .footer {{ margin-top: 20px; text-align: center; color: #999; font-size: 12px; }}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>📬 New Contact Form Submission</h2>
+        <p style="color: rgba(255,255,255,0.8);">MOCOWEST Cloud Platform</p>
+    </div>
+    <div class="content">
+        <div class="field"><span class="label">Name:</span> <span class="value">{data['name']}</span></div>
+        <div class="field"><span class="label">Email:</span> <span class="value">{data['email']}</span></div>
+        <div class="field"><span class="label">Subject:</span> <span class="value">{data['subject']}</span></div>
+        <div class="field"><span class="label">Message:</span></div>
+        <div class="value" style="background: white; padding: 10px; border-radius: 5px; margin-top: 5px;">{data['message']}</div>
+        <div class="field" style="margin-top: 15px;"><span class="label">Submitted:</span> <span class="value">{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</span></div>
+        <hr style="margin: 20px 0; border: 1px solid #ddd;">
+        <p style="color: #666; font-size: 14px;">Reply to: <a href="mailto:{data['email']}">{data['email']}</a></p>
+    </div>
+    <div class="footer">
+        <p>This email was sent from MOCOWEST Contact Form</p>
+        <p>&copy; 2026 MOCOWEST Cloud Platform</p>
+    </div>
+</body>
+</html>
+""")
+                 .build())
+        
+        # Send email
+        response = ms.emails.send(email)
+        
+        # Check response - MailerSend returns 202 on success
+        logger.info(f"✅ Email sent successfully to {mailersend_to_email}")
+        logger.info(f"   Status Code: {response.status_code if hasattr(response, 'status_code') else 'Unknown'}")
+        logger.info(f"   From: {data['email']}")
+        logger.info(f"   Subject: {data['subject']}")
+        
+        # Try to get message_id if available
+        if hasattr(response, 'message_id'):
+            logger.info(f"   Message ID: {response.message_id}")
+        elif hasattr(response, 'data') and hasattr(response.data, 'message_id'):
+            logger.info(f"   Message ID: {response.data.message_id}")
+        
+    except Exception as e:
+        logger.error(f"❌ MailerSend error: {str(e)}")
+>>>>>>> Stashed changes
 
 @app.route('/')
 def index():
@@ -110,6 +202,7 @@ def contact():
                 if not data.get(field):
                     return jsonify({'error': f'{field} is required'}), 400
             
+<<<<<<< Updated upstream
             # Send email in background (don't wait for it)
             if app.config['MAIL_PASSWORD']:
                 thread = threading.Thread(target=send_email_async, args=(data,))
@@ -120,6 +213,18 @@ def contact():
                 logger.warning("⚠️ Email password not configured - email not sent")
             
             # Return success immediately (don't wait for email)
+=======
+            # Send email in background
+            if mailersend_api_key:
+                thread = threading.Thread(target=send_email_async, args=(data,))
+                thread.daemon = True
+                thread.start()
+                logger.info("📧 Email queued for sending via MailerSend")
+            else:
+                logger.warning("⚠️ MailerSend API key not configured - email not sent")
+            
+            # Return success immediately
+>>>>>>> Stashed changes
             return jsonify({
                 'success': True,
                 'message': 'Message sent successfully! We will get back to you soon.'
