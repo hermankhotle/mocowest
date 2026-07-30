@@ -12,22 +12,7 @@ load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
 
-<<<<<<< Updated upstream
-# Gmail SMTP Configuration
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', 'hermankhotle@gmail.com')
-app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', '')
-app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER', 'hermankhotle@gmail.com')
-app.config['MAIL_MAX_EMAILS'] = None
-app.config['MAIL_ASCII_ATTACHMENTS'] = False
-
-# Initialize extensions
-=======
 # Initialize CSRF
->>>>>>> Stashed changes
 csrf = CSRFProtect(app)
 
 logging.basicConfig(level=logging.INFO)
@@ -38,17 +23,10 @@ logger = logging.getLogger(__name__)
 def inject_csrf_token():
     return dict(csrf_token=generate_csrf)
 
-<<<<<<< Updated upstream
-# Function to send email in background
-def send_email_async(data):
-    try:
-        with app.app_context():
-            msg_body = f"""New contact form submission:
-=======
 # Initialize MailerSend
 mailersend_api_key = os.getenv('MAILERSEND_API_KEY')
-mailersend_from_email = os.getenv('MAILERSEND_FROM_EMAIL', 'info@mocowest.co.za')
-mailersend_to_email = os.getenv('MAILERSEND_TO_EMAIL', 'info@mocowest.co.za')
+mailersend_from_email = os.getenv('MAILERSEND_FROM_EMAIL', 'admin@mocowest.co.za')
+mailersend_to_email = os.getenv('MAILERSEND_TO_EMAIL', 'hermankhotle@gmail.com')
 
 # Function to send email using MailerSend
 def send_email_async(data):
@@ -63,7 +41,6 @@ def send_email_async(data):
         # Build email
         email_body = f"""
 New contact form submission from MOCOWEST:
->>>>>>> Stashed changes
 
 Name: {data['name']}
 Email: {data['email']}
@@ -71,22 +48,6 @@ Subject: {data['subject']}
 Message:
 {data['message']}
 
-<<<<<<< Updated upstream
-Submitted on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"""
-            
-            msg = Message(
-                subject=f"MOCOWEST Contact Form: {data['subject']}",
-                sender=app.config['MAIL_DEFAULT_SENDER'],
-                recipients=[app.config['MAIL_DEFAULT_SENDER']],
-                body=msg_body,
-                reply_to=data['email']
-            )
-            
-            mail.send(msg)
-            logger.info(f"✅ Email sent successfully to {data['email']}")
-    except Exception as e:
-        logger.error(f"❌ Email error: {str(e)}")
-=======
 Submitted on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 
 Reply to: {data['email']}
@@ -152,7 +113,6 @@ Reply to: {data['email']}
         
     except Exception as e:
         logger.error(f"❌ MailerSend error: {str(e)}")
->>>>>>> Stashed changes
 
 @app.route('/')
 def index():
@@ -202,18 +162,6 @@ def contact():
                 if not data.get(field):
                     return jsonify({'error': f'{field} is required'}), 400
             
-<<<<<<< Updated upstream
-            # Send email in background (don't wait for it)
-            if app.config['MAIL_PASSWORD']:
-                thread = threading.Thread(target=send_email_async, args=(data,))
-                thread.daemon = True
-                thread.start()
-                logger.info("📧 Email queued for sending")
-            else:
-                logger.warning("⚠️ Email password not configured - email not sent")
-            
-            # Return success immediately (don't wait for email)
-=======
             # Send email in background
             if mailersend_api_key:
                 thread = threading.Thread(target=send_email_async, args=(data,))
@@ -224,7 +172,6 @@ def contact():
                 logger.warning("⚠️ MailerSend API key not configured - email not sent")
             
             # Return success immediately
->>>>>>> Stashed changes
             return jsonify({
                 'success': True,
                 'message': 'Message sent successfully! We will get back to you soon.'
